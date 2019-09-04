@@ -1,6 +1,6 @@
 ﻿/*Nga Nguyen
 CIDM 4360-70
-September 9, 2019
+September 4, 2019
 Assignment 1 */
 
 using System;
@@ -26,15 +26,47 @@ namespace Assignment_1
             char userSelection=char.Parse(rawUserSelection); 
             return userSelection;           
         }
-        static void ReadExpression(string x, string y, string z)
-        {             
-            Console.WriteLine("The expression you entered is: {0} x {1} = {2}", x, y,z);
-        }
-        static float CheckAnswer(string x, string y, string z)
+        static string ReadExpression(string x)
         {
-            float first=float.Parse(x);
-            float second=float.Parse(y);
-            float third=float.Parse(z);
+            string readBack=x;
+            return readBack;
+        }
+        static float FirstNumber(string x)
+        {   
+            string[] expPart1=x.Split('*');
+            string[] expPart2=expPart1[1].Split('=');
+            string[] answer=expPart2[1].Split(' ');
+            float num1 = float.Parse(expPart1[0]);
+            float num2 = float.Parse(expPart2[0]);
+            float num3 = float.Parse(answer[0]);
+            return num1;
+        }
+        static float SecondNumber(string x)
+        {
+            string[] expPart1=x.Split('*');
+            string[] expPart2=expPart1[1].Split('=');
+            string[] answer=expPart2[1].Split(' ');
+            float num1 = float.Parse(expPart1[0]);
+            float num2 = float.Parse(expPart2[0]);
+            float num3 = float.Parse(answer[0]);
+            return num2;   
+        }
+        static float UserAnswer(string x)
+        {
+            string[] expPart1=x.Split('*');
+            string[] expPart2=expPart1[1].Split('=');
+            string[] answer=expPart2[1].Split(' ');
+            float num1 = float.Parse(expPart1[0]);
+            float num2 = float.Parse(expPart2[0]);
+            float num3 = float.Parse(answer[0]);
+            return num3;
+
+        }
+        static float CheckAnswer(float x, float y, float z)
+        {
+            float first=x;
+            float second=y;
+            float third=z;
             float correctAnswer=first * second;
             if(third==correctAnswer)
             {
@@ -56,56 +88,60 @@ namespace Assignment_1
         {   
             //variables to store user entry for first and second number to multiply
             //and user's answer         
-            string rawNum1="";
-            string rawNum2="";
-            string rawUserAnswer="";
+            string rawUserEntry="";
+            float rawNum1;
+            float rawNum2;
+            float rawUserAnswer;
+            int expressionsCounter=0;
             float oneOrZero;
             int userScore=0;
             int compScore=0;
             
             char ch;         
             do
-            {
+            {   
                 ch=Menu();
                 switch(ch)
                 {
                     case 'a':
-                    //Prompt user to enter the expression:
-                    //first number
-                    Console.WriteLine("You will need to enter two numbers to multiply. Please enter the first number:");
-                    //reading the user's first entry and storing it as a string value
-                    rawNum1=Console.ReadLine();
-                    //second number
-                    Console.WriteLine("Please enter the second number:");
-                    //reading the user's second entry and storing it as a string value
-                    rawNum2=Console.ReadLine();
-                    //user answer
-                    Console.WriteLine("Please enter the answer:");
-                    //reading the user's answer entry and storing it as a string value
-                    rawUserAnswer=Console.ReadLine();
-                    
-                    ReadExpression(rawNum1, rawNum2, rawUserAnswer); 
-
-                    break;
-
-                    case 'b':
-                    //Console.WriteLine(CheckAnswer(rawNum1, rawNum2, rawUserAnswer));
+                    //Prompt user to enter expression
+                    Console.WriteLine("Please enter a two numbers to multiply and your answer. ");
+                    rawUserEntry=Console.ReadLine();
+                    Console.WriteLine("You entered: "+ReadExpression(rawUserEntry));
+                    expressionsCounter++;
+                    rawNum1=FirstNumber(rawUserEntry);
+                    rawNum2=SecondNumber(rawUserEntry);
+                    rawUserAnswer=UserAnswer(rawUserEntry);
                     oneOrZero=(CheckAnswer(rawNum1, rawNum2, rawUserAnswer));
                     if (oneOrZero==1)
                     {
-                        Console.WriteLine("Your answer is correct. {0} x {1} = {2}", rawNum1, rawNum2, rawUserAnswer);
                         userScore++;
                     }
                     else
                     {
-                        Console.WriteLine("Your answer is correct. {0} x {1} = {2}", rawNum1, rawNum2, rawUserAnswer);
                         compScore++;
+                    }
+                    break;
+
+                    case 'b':
+                    
+                    rawNum1=FirstNumber(rawUserEntry);
+                    rawNum2=SecondNumber(rawUserEntry);
+                    rawUserAnswer=UserAnswer(rawUserEntry);
+                    oneOrZero=(CheckAnswer(rawNum1, rawNum2, rawUserAnswer));
+                    if (oneOrZero==1)
+                    {
+                        Console.WriteLine("Your answer is correct. {0} x {1} = {2}", rawNum1, rawNum2, rawUserAnswer);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Your answer is incorrect. {0} x {1} = {2}", rawNum1, rawNum2, rawUserAnswer);   
                     }
                     break;
 
                     case 'c':
                     DisplayScore(userScore, compScore);
-                    
+                    Console.WriteLine("You have played {0} games.", expressionsCounter);
                     break;
                 }
             }
