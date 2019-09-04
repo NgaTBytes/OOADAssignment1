@@ -89,8 +89,7 @@ namespace Assignment_1
                     break;
 
                     case 'b':
-                    
-                    Console.WriteLine(CheckAnswer(rawNum1, rawNum2, rawUserAnswer));
+                    //Console.WriteLine(CheckAnswer(rawNum1, rawNum2, rawUserAnswer));
                     oneOrZero=(CheckAnswer(rawNum1, rawNum2, rawUserAnswer));
                     if (oneOrZero==1)
                     {
